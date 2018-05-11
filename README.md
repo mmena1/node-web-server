@@ -1,2 +1,2 @@
 # node-web-server
-Tutorial project for creating a web-server with ExpressJS.
+Tutorial project that demonstrates how to create and use a basic web-server with ExpressJS.

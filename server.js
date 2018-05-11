@@ -1,10 +1,12 @@
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
+var exphbs  = require('express-handlebars');
 
 var app = express();
 
 hbs.registerPartials(__dirname + '/views/partials');
+app.engine('handlebars', exphbs({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 //middleware - basic logger
@@ -20,11 +22,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    res.render('maintenance.hbs', {
-        maintenanceMessage: 'This website is under maintenance, it will be back soon.'
-    });
-});
+// app.use((req, res, next) => {
+//     res.render('maintenance.hbs', {
+//         maintenanceMessage: 'This website is under maintenance, it will be back soon.'
+//     });
+// });
 
 app.use(express.static(__dirname + '/public'));
 
@@ -32,7 +34,7 @@ hbs.registerHelper('getCurrentYear', () => new Date().getFullYear());
 hbs.registerHelper('screamIt', (text) => text.toUpperCase());
 
 app.get('/', (req, res) => { //set a handler for GET requests on the root of the server, namely: localhost:3000
-    //res.send('<h1>Hello Express!</h1>'); //response to show to the user when visiting the handler
+    // res.send('<h1>Hello Express!</h1>'); //response to show to the user when visiting the handler
     // res.send({
     //     name: 'Martin',
     //     likes: [
@@ -60,6 +62,12 @@ app.get('/bad', (req, res) => {
     });
 });
 
+app.get('/test', (req, res) => {
+    res.send('Hello Express!');
+});
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000')
 }); //bind the applicaion to a port
+
+module.exports.app = app;
